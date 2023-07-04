@@ -10,7 +10,17 @@ function print(text) {
  * чтобы функция sayHello работала корректно
  */
 function isValid(name) {
-  // ваш код...
+  if (name) {
+    let nameArray = name.split('');
+    let nameArray2 = name.split(' ');
+    if ((nameArray.length > 3) && (nameArray2.length < 2)) {
+      return true;
+    } else { 
+        return false;
+    };
+  } else { 
+      return false;
+  };
 }
 
 function sayHello() {
