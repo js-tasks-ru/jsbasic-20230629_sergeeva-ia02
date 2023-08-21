@@ -40,19 +40,19 @@ export default class CartIcon {
 
   updatePosition() {
     let basket = document.querySelector('.cart-icon_visible');
-
-    function isHidden(elem) {
-      return !elem.offsetWidth && !elem.offsetHeight;
-    }
-    
-    let leftIndent = Math.min(
-      document.querySelector('.container').getBoundingClientRect().right + 20,
-      document.documentElement.clientWidth - this.elem.offsetWidth - 10
-    ) + 'px';
-    
-    let isMobile = document.documentElement.clientWidth < 767;
     
     if (basket) {
+      function isHidden(elem) {
+        return !elem.offsetWidth && !elem.offsetHeight;
+      }
+      
+      let leftIndent = Math.min(
+        document.querySelector('.container').getBoundingClientRect().right + 20,
+        document.documentElement.clientWidth - this.elem.offsetWidth - 10
+      ) + 'px';
+      
+      let isMobile = document.documentElement.clientWidth < 767;
+
       if (!isHidden(basket) && !isMobile) {
         if (window.scrollY >= basket.offsetTop) {
           Object.assign(this.elem.style, {
