@@ -202,24 +202,31 @@ export default class Cart {
       method
     });
 
-    response.then( () => {
-      this.modal.setTitle('Success!');
-      this.cartItems = [];
+    response
+      .then( () => {
+        this.modal.setTitle('Success!');
 
-      let modalContainer = document.querySelector('.modal__body div');
+        this.cartItems = [];
+        
+        this.cartIcon.update(this);
 
-      modalContainer.innerHTML = '';
+        let modalContainer = document.querySelector('.modal__body div');
 
-      this.modal.setBody( createElement(`
-      <div class="modal__body-inner">
-        <p>
-          Order successful! Your order is being cooked :) <br>
-          We’ll notify you about delivery time shortly.<br>
-          <img src="/assets/images/delivery.gif">
-        </p>
-      </div>
-      `));
-    });
+        modalContainer.innerHTML = '';
+
+        this.modal.setBody( createElement(`
+        <div class="modal__body-inner">
+          <p>
+            Order successful! Your order is being cooked :) <br>
+            We’ll notify you about delivery time shortly.<br>
+            <img src="/assets/images/delivery.gif">
+          </p>
+        </div>
+        `));
+      })
+      .catch( (error) => {
+        console.log(error);
+      })
   };
 
   addEventListeners() {
