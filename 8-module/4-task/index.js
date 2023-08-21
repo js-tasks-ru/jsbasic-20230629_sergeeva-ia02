@@ -189,7 +189,7 @@ export default class Cart {
 
   onSubmit(event) {
     event.preventDefault();
-    
+
     const form = document.querySelector('.cart-form');
 
     const url = 'https://httpbin.org/post';
