@@ -24,7 +24,7 @@ export default class Cart {
       this.onProductUpdate(cartItem);
     }
 
-    return this.cartItems;
+    return this.cartItem;
   }
 
   updateProductCount(productId, amount) {

@@ -6,6 +6,7 @@ export default class RibbonMenu {
 
   constructor(categories) {
     this.categories = categories;
+    this.value = '';
 
     this.elem = this.#render();
   }
@@ -74,13 +75,29 @@ export default class RibbonMenu {
   #selectCategories() {
     const buttons = this.elem.querySelectorAll('.ribbon__item');
 
+    let defaultCategory = buttons[0];
+
+    defaultCategory.classList.add('ribbon__item_active');
+
+    this.value = defaultCategory.dataset.id;
+
     Array.from(buttons).forEach( button => {
       const buttonId = button.dataset.id;
+      
+      button.addEventListener('click', (event) => {
+        event.preventDefault();
 
-      button.addEventListener('click', () => this.#selectRibbon(buttonId));
+        Array.from(buttons).forEach ( button => button.classList.remove('ribbon__item_active'));
+
+        button.classList.add('ribbon__item_active');
+
+        this.value = button.dataset.id;
+        
+        this.#selectRibbon(buttonId);
+      });
     });
   }
-
+  
   #selectRibbon(id) {
     const event = new CustomEvent('ribbon-select', {
       detail: id,

@@ -7,7 +7,7 @@ export default class ProductGrid {
   elem = null;
 
   constructor(products) {
-    this.products = products;
+    this.products = Array.from(products);
     this.filters = {
       noNuts: false,
       vegeterianOnly: false,
@@ -32,7 +32,7 @@ export default class ProductGrid {
 
     let cardGridInner = this.elem.querySelector('.products-grid__inner');
 
-    products.map( (product) => {
+    this.products.map( (product) => {
       let card = new ProductCard(product);
       
       cardGridInner.appendChild(card.elem);
@@ -44,27 +44,23 @@ export default class ProductGrid {
   updateFilter(filters) {
     Object.assign(this.filters, filters);
     
-    this.elem.remove();
-    
-    this.elem = createElement(this.#template());
-
     let cardGridInner = this.elem.querySelector('.products-grid__inner');
 
-    let filtered = products
-      .filter( (product) => (product.spiciness <= this.filters.maxSpiciness) && 
-        (product.nuts != this.filters.noNuts) && 
-        (product.category.includes(this.filters.category)) &&
-        ((!!product.vegeterian == this.filters.vegeterianOnly) || product.vegeterian)
-      )
+    cardGridInner.innerHTML = '';
     
+    let filtered = this.products
+      .filter( (product) => (product.spiciness <= this.filters.maxSpiciness) && 
+      (product.nuts != this.filters.noNuts || !product.nuts) && 
+      (product.category.includes(this.filters.category)) &&
+      ((!!product.vegeterian == this.filters.vegeterianOnly) || product.vegeterian)
+      );
+      
     filtered.map( (product) => {
       let card = new ProductCard(product);
       
       cardGridInner.appendChild(card.elem);
-    })
+    });
 
-    document.body.appendChild(this.elem);
-
-    return this.elem
+    return filtered;
   }
 }
