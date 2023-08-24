@@ -35,9 +35,17 @@ export default class StepSlider {
 
   #render() {
     this.elem = createElement(this.#template());
-
-    let step1 = this.elem.querySelector('.slider__steps span');
-    step1.classList.add('slider__step-active');
+    
+    const progress = this.elem.querySelector('.slider__progress');
+    const thumb = this.elem.querySelector('.slider__thumb');
+    const sliderSteps = this.elem.querySelector('.slider__steps');
+    const spanList = Array.from(sliderSteps.querySelectorAll('span'));
+    
+    let valuePercents = this.value / (this.steps - 1) * 100;
+    
+    spanList[this.value].classList.add('slider__step-active');
+    thumb.style.left = `${valuePercents}%`;
+    progress.style.width = `${valuePercents}%`;
     
     this.elem.addEventListener('click', this.#changeSlider);
 
@@ -45,7 +53,7 @@ export default class StepSlider {
 
     this.elem.addEventListener('pointerdown', this.#onDown);
 
-    return this.elem
+    return this.elem;
   }
 
   #changeSlider = (e) => {
@@ -80,7 +88,7 @@ export default class StepSlider {
   #onDown = () => {
     this.elem.classList.add('slider_dragging');
     document.addEventListener('pointermove', this.#onMove);
-    document.addEventListener('pointerup', this.#onUp);
+    this.elem.addEventListener('pointerup', this.#onUp);
   }
   
   #onMove = (e) => {
@@ -120,7 +128,6 @@ export default class StepSlider {
     sliderValue.innerHTML = `${value}`;
     thumb.style.left = `${leftPercents}%`;
     progress.style.width = `${leftPercents}%`;
-    console.log(progress.style.width);
   }
   
   #onUp = (e) => {
@@ -130,7 +137,6 @@ export default class StepSlider {
 
     const sliderSteps = this.elem.querySelector('.slider__steps');
     const spanList = Array.from(sliderSteps.querySelectorAll('span'));
-    
 
     let left = e.clientX - this.elem.getBoundingClientRect().left;
     let leftRelative = left / this.elem.offsetWidth;
@@ -142,7 +148,7 @@ export default class StepSlider {
       if (Array.from(span.classList).includes('slider__step-active')) {
         span.classList.remove('slider__step-active');
       }
-    })
+    });
 
     this.#changeValue(value);
   }
